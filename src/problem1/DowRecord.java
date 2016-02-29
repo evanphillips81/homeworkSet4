@@ -11,7 +11,7 @@ import java.time.format.DateTimeParseException;
  */
 public class DowRecord {
     
-    final DateTimeFormatter DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private final DateTimeFormatter DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private LocalDate date;
     private double value;
     

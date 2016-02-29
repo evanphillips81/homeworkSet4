@@ -1,7 +1,9 @@
 
 package problem1;
 
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -41,12 +43,19 @@ public class DJIAView {
     private Button getPricesBtn;
     private Label startDateLbl;
     private Label endDateLbl;
-    private ChoiceBox startDateChoice;
-    private ChoiceBox endDateChoice;
+    private ChoiceBox<String> startDateChoice;
+    private ChoiceBox<String> endDateChoice;
+    private ObservableList<String> dates;
     private DowLineChart graph;
+    private DowListView list;
+    private DowHistory records;
+    private TextFileReader reader;
     
     public DJIAView (Stage stage) {
         this.stage = stage;
+        reader = new TextFileReader(FILE);
+        records = reader.getRecords();
+        dates = FXCollections.observableArrayList(records.getDates());
         showScene();
         actions();
     }
@@ -60,10 +69,11 @@ public class DJIAView {
         startDateLbl = new Label("Start date: ");
         endDateLbl = new Label("End date: ");
         startDateChoice = 
-                new ChoiceBox(FXCollections.observableArrayList("",""));
+                new ChoiceBox(FXCollections.observableArrayList(dates));
         endDateChoice = 
-                new ChoiceBox(FXCollections.observableArrayList("",""));
+                new ChoiceBox(FXCollections.observableArrayList(dates));
         getPricesBtn = new Button("Get Prices");
+                
         HBox dateRange = new HBox(SP_M);
         dateRange.setPadding(new Insets(SP_S, SP_S, SP_S, SP_S));
         dateRange.setAlignment(Pos.CENTER);
@@ -78,13 +88,12 @@ public class DJIAView {
     
     private VBox getCenterPane() {
         
-        TextFileReader reader = new TextFileReader(FILE);
-        DowHistory history = reader.getRecords();
-        
         centerPane = new VBox();
         graph = new DowLineChart();
-        graph.setChartValues(history.getSubList("2016-02-16","2016-02-26"));
-        centerPane.getChildren().add(graph.getLineChart());
+        list = new DowListView(records);
+        centerPane.setPadding(new Insets(SP_S, SP_S, SP_S, SP_S));
+        graph.setChartValues(records.getSubList("2008-02-16","2008-11-26"));
+        centerPane.getChildren().addAll(graph.getLineChart(),list.getListView());
         
         return centerPane;
     }

@@ -14,12 +14,12 @@ import javafx.collections.ObservableList;
 public class DowHistory {
     
     private ArrayList<DowRecord> records;
-    private ObservableList<String> dates;
+    private ArrayList<String> dates;
     private int size;
     
     public DowHistory() {
         records = new ArrayList();
-        dates = FXCollections.observableArrayList();
+        dates = new ArrayList();
         size = 0;
     }
     
@@ -31,7 +31,7 @@ public class DowHistory {
         return records;
     }
     
-    public ObservableList<String> getDates() {
+    public ArrayList<String> getDates() {
         for (int i = 0; i < records.size(); i++){
             dates.add(records.get(i).getDate().toString());
         }
