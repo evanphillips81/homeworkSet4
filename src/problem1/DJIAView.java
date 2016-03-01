@@ -12,6 +12,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -35,14 +36,19 @@ public class DJIAView {
     private BorderPane layout;
     private VBox topPane;
     private VBox centerPane;
-    private HBox bottomPane;
+    private VBox bottomPane;
     private MenuBar menuBar;
     private Menu fileMenu;
     private Menu editMenu;
     private Button okBtn; 
     private Button getPricesBtn;
+    private Button addBtn;
     private Label startDateLbl;
     private Label endDateLbl;
+    private Label dateLbl;
+    private Label valueLbl;
+    private TextField dateTf;
+    private TextField valueTf;
     private ChoiceBox<String> startDateChoice;
     private ChoiceBox<String> endDateChoice;
     private ObservableList<String> dates;
@@ -56,6 +62,10 @@ public class DJIAView {
         reader = new TextFileReader(FILE);
         records = reader.getRecords();
         dates = FXCollections.observableArrayList(records.getDates());
+        dateLbl = new Label("Date: ");
+        valueLbl = new Label("Value: ");
+        dateTf = new TextField();
+        valueTf = new TextField();
         showScene();
         actions();
     }
@@ -81,29 +91,33 @@ public class DJIAView {
                                        endDateLbl, endDateChoice, getPricesBtn);
                 
         menuBar.getMenus().addAll(fileMenu, editMenu);
-        topPane.getChildren().addAll(menuBar,dateRange);
+        topPane.getChildren().addAll(menuBar, dateRange);
         
         return topPane;
     }
     
     private VBox getCenterPane() {
-        
         centerPane = new VBox();
         graph = new DowLineChart();
-        list = new DowListView(records);
+        list = new DowListView();
         centerPane.setPadding(new Insets(SP_S, SP_S, SP_S, SP_S));
-        graph.setChartValues(records.getSubList("2008-02-16","2008-11-26"));
-        centerPane.getChildren().addAll(graph.getLineChart(),list.getListView());
+        centerPane.getChildren().addAll(graph.getLineChart(), list.getListView());
         
         return centerPane;
     }
     
-    private HBox getBottomPane() {
-        bottomPane = new HBox();
+    private VBox getBottomPane() {
+        HBox manualEntry = new HBox(SP_S);
+        addBtn = new Button("Add Record");
+        manualEntry.setAlignment(Pos.CENTER);
+        manualEntry.setPadding(new Insets(SP_S, SP_S, SP_S, SP_S));
+        manualEntry.getChildren().addAll(dateLbl, dateTf, valueLbl, valueTf, addBtn);
+        
+        bottomPane = new VBox();
         bottomPane.setAlignment(Pos.CENTER);
         bottomPane.setPadding(new Insets(SP_S, SP_S, SP_S, SP_S));
         okBtn = new Button("OK");
-        bottomPane.getChildren().addAll(okBtn);
+        bottomPane.getChildren().addAll(manualEntry, okBtn);
         
         return bottomPane;
     }
@@ -119,7 +133,9 @@ public class DJIAView {
     
     private void showScene() {
         stage.setTitle(TITLE);
-        stage.setScene(new Scene(getLayout(),W,H));
+        Scene scene = new Scene(getLayout(), W, H);
+        //scene.getStylesheets().add("style.css");
+        stage.setScene(scene);
         stage.show();
     }
     
@@ -127,11 +143,17 @@ public class DJIAView {
         okBtn.setOnAction(e -> {
             close();
         });
+        getPricesBtn.setOnAction(e -> {
+            getPrices();
+        });
+    }
+    
+    private void getPrices() {
+        graph.update(records.getSubList(startDateChoice.getValue(),endDateChoice.getValue()));
+        list.update(records.getSubList(startDateChoice.getValue(),endDateChoice.getValue()));
     }
     
     private void close() {
         stage.close();
     }
-    
-    
 }

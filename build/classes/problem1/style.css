@@ -1,0 +1,44 @@
+.root{
+    -fx-background-color: #585858;
+    -fx-font-size: 12pt;
+}
+
+.label {
+    -fx-text-fill: #7CAFC2;
+    -fx-font-family: "Cambria";  
+}
+
+.button {
+    -fx-background-color: #585858;
+    -fx-text-fill: #D8D8D8;
+}
+
+.menu-bar{
+    -fx-background-color: #585858;
+    -fx-border-color:  #7CAFC2;
+
+}
+
+.menu-bar .label {
+    -fx-font-size: 15;
+    -fx-font-family: "Cambria";
+    -fx-text-fill: #FFFFFF;
+
+}
+
+.menu-item .label {
+    -fx-font-size: 15 pt;
+    -fx-text-fill: #000000;
+}
+
+.list-view .label {
+    -fx-font-size: 15;
+    -fx-font-family: "Cambria";
+    -fx-background-color: #585858;
+    -fx-text-fill: #000000;
+}
+
+.tooltip {
+    -fx-background-color: #AB4642;
+    -fx-text-fill: #D8D8D8;
+}

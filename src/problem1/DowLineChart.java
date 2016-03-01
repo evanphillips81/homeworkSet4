@@ -12,7 +12,7 @@ import javafx.scene.chart.XYChart;
  *
  * @author Evan Phillips
  */
-public class DowLineChart {
+public class DowLineChart implements Observer {
     
     private CategoryAxis xAxis;
     private NumberAxis yAxis;
@@ -20,6 +20,7 @@ public class DowLineChart {
     private XYChart.Series series;
     
     public DowLineChart() {
+        
         xAxis = new CategoryAxis();
         yAxis = new NumberAxis();
         xAxis.setLabel("Date");
@@ -40,6 +41,11 @@ public class DowLineChart {
             series.getData().add(new XYChart.Data(list.get(i).getDate().toString(),
                     list.get(i).getValue()));
         }
+    }
+
+    @Override
+    public void update(ArrayList<DowRecord> records) {
+       setChartValues(records);
     }
     
 }
