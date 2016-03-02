@@ -47,25 +47,24 @@ public class DowHistory implements Subject {
         LocalDate toDate = LocalDate.parse(to, formatter);
 
         for (int i = 0; i < records.size(); i++) {
-            if (records.get(i).getDate().isEqual(fromDate) || records.get(i).getDate().isAfter(fromDate)) {
+            if (records.get(i).getDate().isAfter(fromDate) && records.get(i).getDate().isBefore(toDate)) {
                 subList.add(records.get(i));
-                if (records.get(i).getDate().isEqual(toDate)) {
-                    break;
-                }
             }
         }
         notifyObserver(subList);
-        return records;
+        return subList;
     }
 
     public void addRecord(DowRecord record) {
         records.add(record);
         size++;
+        notifyObserver(records);
     }
 
     public void removeRecord(DowRecord record) {
         records.remove(record);
         size--;
+        notifyObserver(records);
     }
 
     public void displayRecords() {
@@ -82,13 +81,13 @@ public class DowHistory implements Subject {
     }
 
     @Override
-    public void regiester(Observer newObserver) {
+    public void register(Observer newObserver) {
         observers.add(newObserver);
 
     }
 
     @Override
-    public void unregiester(Observer existingObserver) {
+    public void unregister(Observer existingObserver) {
         int index = observers.indexOf(existingObserver);
 		observers.remove(index);
 		System.out.println("Observer " + (index + 1) + " deleted.");

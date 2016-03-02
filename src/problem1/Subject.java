@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public interface Subject {
     
-    public void regiester(Observer o);
-    public void unregiester(Observer o);
+    public void register(Observer o);
+    public void unregister(Observer o);
     public void notifyObserver(ArrayList<DowRecord> records);
 }
