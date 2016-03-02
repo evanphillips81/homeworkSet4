@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -143,6 +144,7 @@ public class DJIAView {
         stage.setTitle(TITLE);
         Scene scene = new Scene(getLayout(), W, H);
         //scene.getStylesheets().add("style.css");
+        stage.getIcons().add(new Image("stocks.png"));
         stage.setScene(scene);
         stage.show();
     }
@@ -158,7 +160,7 @@ public class DJIAView {
 
     private void getPrices() {
         String startDate = datePickerStart.getValue().toString();
-        String endDate = datePickerStart.getValue().toString();
+        String endDate = datePickerEnd.getValue().toString();
         records.getSubList(startDate, endDate);
         System.out.println(records.getSubList(startDate, endDate));
     }

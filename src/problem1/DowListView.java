@@ -19,9 +19,10 @@ public class DowListView implements Observer {
     }
     
     public void setListView(ArrayList<DowRecord> records) {
+        list.getItems().clear();
         for (int i = 0; i < records.size(); i++) {
             String date = records.get(i).getDate().toString();
-            String value = ("$"+records.get(i).getValue());
+            String value = ("\t$"+records.get(i).getValue());
             list.getItems().add(date + ": " + value);
         }
         

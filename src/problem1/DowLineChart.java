@@ -37,6 +37,7 @@ public class DowLineChart implements Observer {
     }
     
     public void setChartValues(ArrayList<DowRecord> list) {
+        lineChart.getData().removeAll();
         for (int i = 0; i < list.size(); i++) {
             series.getData().add(new XYChart.Data(list.get(i).getDate().toString(),
                     list.get(i).getValue()));
