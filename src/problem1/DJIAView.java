@@ -156,6 +156,9 @@ public class DJIAView {
         getPricesBtn.setOnAction(e -> {
             getPrices();
         });
+        addBtn.setOnAction(e -> {
+            addNewRecord(dateTf.getText(),Double.parseDouble(valueTf.getText()));
+        });
     }
 
     private void getPrices() {
@@ -163,6 +166,10 @@ public class DJIAView {
         String endDate = datePickerEnd.getValue().toString();
         records.getSubList(startDate, endDate);
         System.out.println(records.getSubList(startDate, endDate));
+    }
+    
+    private void addNewRecord(String date, double value) {
+        records.addRecord(new DowRecord(LocalDate.parse(date),value));
     }
 
     private void formatDates() {
